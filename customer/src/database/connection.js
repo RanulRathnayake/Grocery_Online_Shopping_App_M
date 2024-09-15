@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 /* const { DB_URL } = require('../config');
  */
-const  DB_URL  = 'mongodb+srv://root:1234@cluster10.hcebh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster10'
+const  DB_URL  = 'mongodb+srv://customer:12345@cluster0.alr0d.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 async function databaseConnection() {
 
     try {
