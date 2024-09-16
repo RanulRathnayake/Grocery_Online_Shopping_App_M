@@ -14,7 +14,7 @@ async function startServer() {
         });
 
         app.listen(8001, () => {
-            console.log('Server is running on port 8001');
+            console.log('Customer Server is running on port 8001');
         });
     } catch (error) {
         console.error('Failed to connect to the database:', error);
