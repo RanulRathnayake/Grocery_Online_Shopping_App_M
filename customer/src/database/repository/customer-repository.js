@@ -2,7 +2,7 @@ const { CustomerModel, AddressModel } = require('../models/Index');
 
 
 class CustomerRepository {
-  async CreateCustomer({ email, password, phone, salt }) {
+  async createCustomer({ email, password, phone, salt }) {
     try {
       const customer = new CustomerModel({
         email,
@@ -45,7 +45,7 @@ class CustomerRepository {
 
   async FindCustomer({ email }) {
     try {
-      const existingCustomer = await CustomerModel.findOne({ email: email });
+      const existingCustomer = await CustomerModel.findOne({ email });
       return existingCustomer;
     } catch (err) {
       console.log('Error ============')
@@ -64,6 +64,14 @@ class CustomerRepository {
     }
   }
 
+  async GetCustomerByEmail({email}){
+    try{
+      const existingCustomer = await CustomerModel.findOne({ email: email });
+      return existingCustomer;
+    }catch(err){
+      console.log(err);
+    }
+  }
   async Wishlist(customerId) {
     try {
       const profile = await CustomerModel.findById(customerId).populate(

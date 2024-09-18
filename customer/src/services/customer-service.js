@@ -1,30 +1,75 @@
-const {CustomerRepository} = require('./customer-repository');
-
+const  CustomerRepository  = require('../database/repository/customer-repository.js');
+const { FormatData, GenerateSignature, ValidatePassword, GeneratePassword, GenerateSalt } = require('../utils/Utils.js');
+const { Error } = require('mongoose');
 
 class CustomerService {
 
-    constructor(){
-        this.repsitory = new CustomerRepository();
+    constructor() {
+        this.repository = new CustomerRepository();
     }
 
-    async SignIn(userInputs){
+    async SignIn(userInputs) {
 
-        const {email, password} = userInputs;
+        const { email, password } = userInputs;
 
-        try{
-            const existingCustomer = await this.repsitory.Findcutomer({email});
+        try {
+            const existingCustomer = await this.repository.FindCustomer({ email });
 
-            if(existingCustomer){
-                const validPassword = await validPassword(password, existingCustomer.password, existingCustomer.salt);
+            if (existingCustomer) {
+                const validPassword = await ValidatePassword(password, existingCustomer.password, existingCustomer.salt);
 
-                if(validPassword){
-                    const token = await GenerateSignature({email: existingCustomer.email, _id: existingCustomer._id});
-                    return FormateData({id: existingCustomer._id, token});
+                if (validPassword) {
+                    const token = await GenerateSignature({ email: existingCustomer.email, _id: existingCustomer._id });
+                    return FormatData({ id: existingCustomer._id, token });
                 }
             }
-            return FormateData(null)
-        } catch(err){
+            return FormatData({ success: false, message: 'Email did not exists' })
+        } catch (err) {
             console.log(err)
         }
     }
+
+    async SignUp(userInputs) {
+        const { email, password, phone } = userInputs;
+
+        try {
+            const existingEmail = await this.repository.FindCustomer({email});
+            if (existingEmail) {
+                console.log("Email alreadt exists")
+                //throw new Error('Email already exists'); 
+                return FormatData({ success: false, message: 'Email already exists' });
+            } else{
+
+            let salt = await GenerateSalt();
+
+            let userPassword = await GeneratePassword(password, salt);
+
+            const existingCustomer = await this.repository.createCustomer({ email, password: userPassword, phone, salt });
+
+            const token = await GenerateSignature({ email: email, _id: existingCustomer._id });
+
+            return FormatData({ id: existingCustomer._id, token });
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    /* async GetCustomerByEmail(email) {
+        return await this.repository.FindCustomer( email );
+    } */
+
+    async GetProfile(id) {
+        try {
+            const existingCustomer = await this.repository.FindCustomerById({ id });
+            return FormatData(existingCustomer);
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
 }
+
+module.exports = CustomerService;
