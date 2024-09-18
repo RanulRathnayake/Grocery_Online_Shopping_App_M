@@ -1,5 +1,5 @@
 const CustomerService = require("../services/customer-service");
-
+const UserAuth = require("./middleware/auth");
 module.exports = (app) => {
 
     const service = new CustomerService();
@@ -26,7 +26,7 @@ module.exports = (app) => {
         }
     });
 
-    app.get("/profile", async (req, res, next) => { //must called a middleware to check user Authorization
+    app.get("/profile", UserAuth , async (req, res, next) => { //must called a middleware to check user Authorization
         try {
           const { _id } = req.user;
           const { data } = await service.GetProfile({ _id });
