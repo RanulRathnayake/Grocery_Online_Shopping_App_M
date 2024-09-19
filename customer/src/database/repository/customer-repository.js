@@ -49,7 +49,7 @@ class CustomerRepository {
       return existingCustomer;
     } catch (err) {
       console.log('Error ============')
-      console.log(error);
+      console.log(error); 
     }
   }
 
@@ -64,19 +64,9 @@ class CustomerRepository {
     }
   }
 
-  async GetCustomerByEmail({email}){
-    try{
-      const existingCustomer = await CustomerModel.findOne({ email: email });
-      return existingCustomer;
-    }catch(err){
-      console.log(err);
-    }
-  }
   async Wishlist(customerId) {
     try {
-      const profile = await CustomerModel.findById(customerId).populate(
-        "wishlist"
-      );
+      const profile = await CustomerModel.findById(customerId).populate("wishlist");
 
       return profile.wishlist;
     } catch (err) {
@@ -91,9 +81,7 @@ class CustomerRepository {
       _id, name, description, banner, avalable, price,
     };
     try {
-      const profile = await CustomerModel.findById(customerId).populate(
-        "wishlist"
-      );
+      const profile = await CustomerModel.findById(customerId).populate("wishlist");
 
       if (profile) {
         let wishlist = profile.wishlist;
@@ -129,9 +117,7 @@ class CustomerRepository {
 
   async AddCartItem(customerId, { _id, name, banner, price }, qty, isRemove) {
     try {
-      const profile = await CustomerModel.findById(customerId).populate(
-        "cart.product"
-      );
+      const profile = await CustomerModel.findById(customerId).populate("cart");
 
       if (profile) {
         const cartItem = {
