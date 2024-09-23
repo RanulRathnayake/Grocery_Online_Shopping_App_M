@@ -5,22 +5,22 @@ class ProductRepository {
         name,
         desc,
         type,
+        banner,
         unit,
         price,
         available,
-        suplier,
-        banner,
+        suplier
     }) {
         try {
             const product = new ProductModel({
                 name,
                 desc,
                 type,
+                banner,
                 unit,
                 price,
                 available,
-                suplier,
-                banner,
+                suplier
             });
 
             const productResult = await product.save();

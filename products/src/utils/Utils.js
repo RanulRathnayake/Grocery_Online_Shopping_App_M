@@ -1,4 +1,8 @@
+
+
 const { Error } = require("mongoose");
+const axios = require('axios');
+
 
 module.exports.FormatData = (data) => {
     if (data) {
@@ -10,8 +14,16 @@ module.exports.FormatData = (data) => {
 
 module.exports.PublishCustomerEvent = async(payload) => {
 
+    axios.post('http://localhost:8000/customer/app-events', {
+        payload
+    })
 }
 
 module.exports.PublishShoppingEvent = async(payload) => {
-    
+
+    axios.post('http://localhost:8000/shopping/app-events', {
+        payload
+    })
 }
+
+

@@ -1,5 +1,6 @@
 const express = require('express');
 const { databaseConnection } = require('./database/connection.js');
+const expressApp = require('./express-app.js');
 
 const app = express();
 
@@ -8,6 +9,8 @@ async function startServer() {
         await databaseConnection(); 
 
         app.use(express.json());
+
+        await expressApp(app);
 
         app.get('/', (req, res, next) => {
             return res.status(200).json({ message: 'Product service' });

@@ -1,5 +1,5 @@
-const { ProductRepository } = require("../database/repository/product-repository");
-const { FormateData } = require("../utils/Utils");
+const  ProductRepository  = require("../database/repository/product-repository");
+const  { FormatData } = require("../utils/Utils");
 
 
 class ProductService {
@@ -11,7 +11,7 @@ class ProductService {
     async CreateProduct(productInputs) {
         try {
             const productResult = await this.repository.CreateProduct(productInputs)
-            return FormateData(productResult);
+            return FormatData(productResult);
         } catch (err) {
             console.log(err);
         }
@@ -27,7 +27,7 @@ class ProductService {
                 categories[type] = type;
             });
 
-            return FormateData({
+            return FormatData({
                 products,
                 categories: Object.keys(categories),
             })
@@ -40,7 +40,7 @@ class ProductService {
     async GetProductDescription(productId) {
         try {
             const product = await this.repository.FindById(productId);
-            return FormateData(product)
+            return FormatData(product)
         } catch (err) {
             console.log(err);
         }
@@ -49,7 +49,7 @@ class ProductService {
     async GetProductsByCategory(category) {
         try {
             const products = await this.repository.FindByCategory(category);
-            return FormateData(products)
+            return FormatData(products)
         } catch (err) {
             console.log(err);
         }
@@ -59,7 +59,7 @@ class ProductService {
     async GetSelectedProducts(selectedIds) {
         try {
             const products = await this.repository.FindSelectedProducts(selectedIds);
-            return FormateData(products);
+            return FormatData(products);
         } catch (err) {
             console.log(err);
         }
@@ -73,6 +73,19 @@ class ProductService {
         }
     }
 
+    async GetProducPayload(userId, {productId, qty}, event) {
+        const product = await this.repository.FindById(productId);
+
+        if(product) {
+            const payload = {
+                event: event,
+                data: {userId, product, qty}
+            }
+            return FormatData(payload)
+        } else {
+            return FormatData({message:'Failed to communicate with other services'})
+        }
+    }
 }
 
 module.exports = ProductService;
