@@ -14,7 +14,7 @@ async function startServer() {
         });
 
         app.listen(8003, () => {
-            console.log('Server is running on port 8003');
+            console.log('Shopping Server is running on port 8003');
         });
     } catch (error) {
         console.error('Failed to connect to the database:', error);
