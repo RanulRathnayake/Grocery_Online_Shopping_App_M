@@ -62,7 +62,7 @@ class ShoppingRepository {
         }
     }
 
-    async CreateNewOrder(customerId) {
+    async CreateNewOrder(customerId, txnId) {
 
 
 
@@ -86,6 +86,7 @@ class ShoppingRepository {
                     orderId,
                     customerId,
                     amount,
+                    txnId,
                     status: 'received',
                     items: cartItems
                 })
@@ -100,3 +101,5 @@ class ShoppingRepository {
         return {}
     }
 }
+
+module.exports = ShoppingRepository;
