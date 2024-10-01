@@ -46,7 +46,7 @@ module.exports = (app) => {
         const { _id } = req.user;
         try {
             const { data } = await service.GetCart(_id);
-            return res.status(200).json(data.cart);
+            return res.status(200).json(data);
         } catch (err) {
             next(err);
         }

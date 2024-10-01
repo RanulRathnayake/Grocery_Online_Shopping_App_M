@@ -78,7 +78,7 @@ module.exports = (app) => {
         const { _id } = req.user;
 
         try {
-            const { data } = service.GetProducPayload(_id, { productId: req.body._id }, 'ADD_TO_WISHLIST');
+            const { data } = service.GetProducPayload({_id, productId: req.body._id }, 'ADD_TO_WISHLIST');
             PublishCustomerEvent(data);
             return res.status(200).json(data.data.product);
         } catch (err) {
