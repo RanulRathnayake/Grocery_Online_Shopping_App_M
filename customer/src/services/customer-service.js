@@ -135,9 +135,13 @@ class CustomerService {
 
     async SubscribeEvents(payload){
  
-        const { data, event } =  payload;
+        const data  =  payload.data;
+        const event = payload.event
 
-        const { userId, product, order, qty } = data;
+        console.log(data);
+        console.log(event);
+
+        const { userId, product, qty } = data; 
 
         switch(event){
             case 'ADD_TO_WISHLIST':

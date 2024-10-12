@@ -35,7 +35,7 @@ module.exports = (app) => {
 
     });
 
-    app.get('/:id', async (req, res, next) => {
+    app.get('/:id', async (req, res, next) => { 
 
         const productId = req.params.id;
 
@@ -73,14 +73,15 @@ module.exports = (app) => {
         
     });
 
-    app.put('/wishlist', UserAuth, async (req, res, next) => {
+    app.put('/wishlist', async (req, res, next) => {
 
-        const { _id } = req.user;
-
+         /* const { _id } = req.user; */
         try {
-            const { data } = service.GetProducPayload({_id, productId: req.body._id }, 'ADD_TO_WISHLIST');
+            //const { data } = await service.GetProducPayload({userId: req.body.user, productId: req.body.id, qty:req.body.qty }, 'ADD_TO_WISHLIST');
+            const { data } = {userId: req.body.user, productId: req.body.id, qty:req.body.qty ,event:req.body.event};
+             console.log("called", data);
             PublishCustomerEvent(data);
-            return res.status(200).json(data.data.product);
+            return res.status(200).json(data.data);
         } catch (err) {
             console.log(err);
         }
@@ -128,7 +129,7 @@ module.exports = (app) => {
         try {
             const { data } = service.GetProducPayload(_id, { productId }, 'REMOVE_FROM_CART');
 
-            PublishCustomerEvent(data);
+            PublishCustomerEvent(data); 
             PublishShoppingEvent(data);
 
             return res.status(200).json(data.data.product);

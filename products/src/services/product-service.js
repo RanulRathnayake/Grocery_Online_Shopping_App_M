@@ -74,6 +74,7 @@ class ProductService {
     }
 
     async GetProducPayload(userId, {productId, qty}, event) {
+        
         const product = await this.repository.FindById(productId);
 
         if(product) {
@@ -81,6 +82,7 @@ class ProductService {
                 event: event,
                 data: {userId, product, qty}
             }
+            console.log(payload);
             return FormatData(payload)
         } else {
             return FormatData({message:'Failed to communicate with other services'})
